@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+    <div>
+        <h1>Sistema de Gestion de Biblioteca</h1>
+        <p>Registra libros con portada, consulta disponibilidad y gestiona prestamos.</p>
+    </div>
+    <a class="button primary" href="/books/new">Registrar libro</a>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card"><span>Total</span><strong>{{ stats.total_books }}</strong></article>
+    <article class="stat-card"><span>Disponibles</span><strong>{{ stats.available_books }}</strong></article>
+    <article class="stat-card"><span>Prestados</span><strong>{{ stats.borrowed_books }}</strong></article>
+    <article class="stat-card"><span>Promedio paginas</span><strong>{{ stats.average_pages }}</strong></article>
+</section>
+
+<h2>Libros registrados</h2>
+<section class="book-grid">
+    {% for book in books %}
+    <article class="book-card">
+        {% if book.img %}
+            <img src="{{ book.img }}" alt="Portada de {{ book.name }}">
+        {% else %}
+            <div class="placeholder">Sin portada</div>
+        {% endif %}
+        <div class="book-info">
+            <h3>{{ book.name }}</h3>
+            <p><strong>Autor:</strong> {{ book.author }}</p>
+            <p><strong>Idioma:</strong> {{ book.language }}</p>
+            <p><strong>Paginas:</strong> {{ book.pages }}</p>
+            {% if book.available %}
+                <span class="badge ok">Disponible</span>
+                <form method="post" action="/books/{{ book.id }}/lend/form">
+                    <button class="button" type="submit">Prestar</button>
+                </form>
+            {% else %}
+                <span class="badge warn">Prestado</span>
+                <form method="post" action="/books/{{ book.id }}/return/form">
+                    <button class="button" type="submit">Devolver</button>
+                </form>
+            {% endif %}
+        </div>
+    </article>
+    {% else %}
+    <p>No hay libros registrados.</p>
+    {% endfor %}
+</section>
+{% endblock %}

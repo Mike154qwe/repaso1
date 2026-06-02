@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Dashboard de Biblioteca</h1>
+<section class="stats-grid">
+    <article class="stat-card"><span>Total de libros</span><strong>{{ stats.total_books }}</strong></article>
+    <article class="stat-card"><span>Disponibles</span><strong>{{ stats.available_books }}</strong></article>
+    <article class="stat-card"><span>Prestados</span><strong>{{ stats.borrowed_books }}</strong></article>
+    <article class="stat-card"><span>Promedio paginas</span><strong>{{ stats.average_pages }}</strong></article>
+</section>
+
+<section class="dashboard-grid">
+    <article class="panel">
+        <h2>Libros por idioma</h2>
+        {% for item in stats.by_language %}
+        <div class="bar-row">
+            <span>{{ item.language }}</span>
+            <div class="bar"><div style="width: {{ (item.count / stats.total_books * 100) if stats.total_books else 0 }}%"></div></div>
+            <strong>{{ item.count }}</strong>
+        </div>
+        {% else %}
+        <p>No hay datos.</p>
+        {% endfor %}
+    </article>
+
+    <article class="panel">
+        <h2>Top 5 libros mas largos</h2>
+        <ol>
+            {% for book in stats.top_books %}
+            <li>{{ book.name }} - {{ book.pages }} paginas</li>
+            {% else %}
+            <li>No hay libros registrados.</li>
+            {% endfor %}
+        </ol>
+    </article>
+</section>
+{% endblock %}

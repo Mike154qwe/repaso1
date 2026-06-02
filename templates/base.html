@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Web</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<nav class="navbar">
+    <a class="brand" href="/">Biblioteca Web</a>
+    <form class="search" action="/books/search" method="get">
+        <input type="search" name="q" placeholder="Buscar libro, autor o idioma" value="{{ q or '' }}">
+        <button type="submit">Buscar</button>
+    </form>
+    <div class="links">
+        <a href="/books/new">Registrar</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/docs">API</a>
+    </div>
+</nav>
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
+<footer class="footer">
+    Proyecto practico FastAPI + SQLModel + HTML + Dashboard
+</footer>
+</body>
+</html>

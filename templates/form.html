@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="form-wrapper">
+    <h1>Registrar nuevo libro</h1>
+    <form class="book-form" method="post" action="/books/form" enctype="multipart/form-data">
+        <label>Nombre del libro</label>
+        <input name="name" required minlength="2" maxlength="100" placeholder="Ej: Clean Code">
+
+        <label>Autor</label>
+        <input name="author" required minlength="2" maxlength="100" placeholder="Ej: Robert C. Martin">
+
+        <label>Paginas</label>
+        <input name="pages" type="number" required min="1" max="5000" placeholder="464">
+
+        <label>Idioma</label>
+        <input name="language" required minlength="2" maxlength="50" placeholder="Espanol / Ingles">
+
+        <label>Portada</label>
+        <input name="image" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+
+        <button class="button primary" type="submit">Guardar libro</button>
+    </form>
+</section>
+{% endblock %}
