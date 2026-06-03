@@ -42,7 +42,7 @@ app = FastAPI(title="Biblioteca Web", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
-templates = Jinja2Templates(directory=BASE_DIR / "templates")
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 
 def save_image(image: UploadFile | None) -> str | None:
@@ -54,7 +54,7 @@ def save_image(image: UploadFile | None) -> str | None:
     if image.content_type not in allowed:
         raise HTTPException(
             status_code=400,
-            detail="La portada debe ser una imagen valida"
+            detail="La portada debe ser una imagen valida",
         )
 
     extension = Path(image.filename).suffix.lower()
@@ -73,8 +73,8 @@ def home(request: Request, session: Session = Depends(get_session)):
     stats = dashboard_stats(session)
 
     return templates.TemplateResponse(
-        "index.html",
-        {
+        name="index.html",
+        context={
             "request": request,
             "books": books,
             "stats": stats,
@@ -83,15 +83,11 @@ def home(request: Request, session: Session = Depends(get_session)):
     )
 
 
-# =========================
-# RUTAS HTML ESPECIFICAS
-# =========================
-
 @app.get("/books/new", response_class=HTMLResponse)
 def new_book_form(request: Request):
     return templates.TemplateResponse(
-        "form.html",
-        {
+        name="form.html",
+        context={
             "request": request,
             "error": None,
         },
@@ -116,7 +112,7 @@ def create_book_from_form(
     if pages <= 0:
         raise HTTPException(
             status_code=400,
-            detail="Las paginas deben ser mayores a 0"
+            detail="Las paginas deben ser mayores a 0",
         )
 
     img_url = save_image(image)
@@ -145,8 +141,8 @@ def search_books_html(
     stats = dashboard_stats(session)
 
     return templates.TemplateResponse(
-        "index.html",
-        {
+        name="index.html",
+        context={
             "request": request,
             "books": books,
             "stats": stats,
@@ -183,17 +179,13 @@ def dashboard_html(request: Request, session: Session = Depends(get_session)):
     stats = dashboard_stats(session)
 
     return templates.TemplateResponse(
-        "dashboard.html",
-        {
+        name="dashboard.html",
+        context={
             "request": request,
             "stats": stats,
         },
     )
 
-
-# =========================
-# RUTAS API ESPECIFICAS
-# =========================
 
 @app.get("/books", response_model=list[Book])
 def api_list_books(session: Session = Depends(get_session)):
@@ -216,10 +208,7 @@ def api_top_books(session: Session = Depends(get_session)):
 
 
 @app.get("/books/language/{language}", response_model=list[Book])
-def api_books_by_language(
-    language: str,
-    session: Session = Depends(get_session),
-):
+def api_books_by_language(language: str, session: Session = Depends(get_session)):
     return books_by_language(language, session)
 
 
@@ -237,10 +226,6 @@ def api_delete_borrowed(session: Session = Depends(get_session)):
 def api_dashboard(session: Session = Depends(get_session)):
     return dashboard_stats(session)
 
-
-# =========================
-# RUTAS CON PARAMETRO AL FINAL
-# =========================
 
 @app.get("/books/{book_id}", response_model=Book)
 def api_get_book(book_id: int, session: Session = Depends(get_session)):
@@ -274,7 +259,7 @@ def api_delete_book(book_id: int, session: Session = Depends(get_session)):
         raise HTTPException(status_code=404, detail="Libro no encontrado")
 
     return {
-        "message": "Libro eliminado correctamente"
+        "message": "Libro eliminado correctamente",
     }
 
 
