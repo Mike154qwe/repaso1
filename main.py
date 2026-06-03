@@ -73,9 +73,9 @@ def home(request: Request, session: Session = Depends(get_session)):
     stats = dashboard_stats(session)
 
     return templates.TemplateResponse(
+        request=request,
         name="index.html",
         context={
-            "request": request,
             "books": books,
             "stats": stats,
             "q": "",
@@ -86,9 +86,9 @@ def home(request: Request, session: Session = Depends(get_session)):
 @app.get("/books/new", response_class=HTMLResponse)
 def new_book_form(request: Request):
     return templates.TemplateResponse(
+        request=request,
         name="form.html",
         context={
-            "request": request,
             "error": None,
         },
     )
@@ -141,9 +141,9 @@ def search_books_html(
     stats = dashboard_stats(session)
 
     return templates.TemplateResponse(
+        request=request,
         name="index.html",
         context={
-            "request": request,
             "books": books,
             "stats": stats,
             "q": q,
@@ -179,9 +179,9 @@ def dashboard_html(request: Request, session: Session = Depends(get_session)):
     stats = dashboard_stats(session)
 
     return templates.TemplateResponse(
+        request=request,
         name="dashboard.html",
         context={
-            "request": request,
             "stats": stats,
         },
     )
