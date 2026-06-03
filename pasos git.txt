@@ -1,0 +1,307 @@
+=========================
+CONFIGURACIÓN INICIAL
+=========================
+
+Verificar versión de Git
+
+git --version
+
+Muestra la versión instalada.
+
+
+Configurar nombre de usuario
+
+git config --global user.name "Tu Nombre"
+
+Ejemplo:
+
+git config --global user.name "Mike Villarreal"
+
+Git usará este nombre en los commits.
+
+
+Configurar correo
+
+git config --global user.email "correo@gmail.com"
+
+Ejemplo:
+
+git config --global user.email "mikevillarreal26061@gmail.com"
+
+Git usará este correo en los commits.
+
+
+Ver configuración actual
+
+git config --list
+
+Muestra toda la configuración.
+
+
+=========================
+CREAR REPOSITORIO
+=========================
+
+Inicializar Git
+
+git init
+
+Crea un repositorio Git en la carpeta actual.
+
+
+Ver estado
+
+git status
+
+Muestra:
+- Archivos nuevos
+- Archivos modificados
+- Archivos preparados para commit
+
+
+=========================
+AGREGAR ARCHIVOS
+=========================
+
+Agregar un archivo específico
+
+git add archivo.py
+
+Ejemplo:
+
+git add main.py
+
+
+Agregar todos los archivos
+
+git add .
+
+Agrega todos los cambios al área de preparación.
+
+
+=========================
+COMMITS
+=========================
+
+Crear commit
+
+git commit -m "Primer commit"
+
+Guarda una versión del proyecto.
+
+
+Ver historial
+
+git log
+
+Muestra todos los commits.
+
+
+Historial resumido
+
+git log --oneline
+
+Muestra los commits en una sola línea.
+
+
+Último commit
+
+git log --oneline -1
+
+Muestra el commit más reciente.
+
+
+=========================
+RAMAS
+=========================
+
+Ver ramas
+
+git branch
+
+Muestra todas las ramas.
+
+
+Renombrar rama actual a main
+
+git branch -M main
+
+Muy usado antes de subir a GitHub.
+
+
+Crear nueva rama
+
+git branch desarrollo
+
+
+Cambiar de rama
+
+git checkout desarrollo
+
+
+Crear y cambiar de rama
+
+git checkout -b desarrollo
+
+
+=========================
+GITHUB
+=========================
+
+Ver repositorios remotos
+
+git remote -v
+
+Muestra a qué repositorio está conectado.
+
+
+Agregar repositorio remoto
+
+git remote add origin https://github.com/usuario/proyecto.git
+
+Ejemplo:
+
+git remote add origin https://github.com/MikeVillarreal67000876/repaso.git
+
+
+Eliminar remoto
+
+git remote remove origin
+
+Desvincula el repositorio actual.
+
+
+Cambiar URL del remoto
+
+git remote set-url origin https://github.com/usuario/nuevo.git
+
+Cambia el repositorio remoto.
+
+
+=========================
+SUBIR A GITHUB
+=========================
+
+Primer push
+
+git push -u origin main
+
+Sube la rama main y la conecta con GitHub.
+
+
+Push posteriores
+
+git push
+
+Sube cambios nuevos.
+
+
+=========================
+BAJAR CAMBIOS
+=========================
+
+Descargar cambios
+
+git pull
+
+Trae cambios desde GitHub.
+
+
+Descargar sin mezclar
+
+git fetch
+
+Actualiza referencias sin modificar archivos.
+
+
+=========================
+CLONAR PROYECTOS
+=========================
+
+Clonar repositorio
+
+git clone https://github.com/usuario/proyecto.git
+
+Ejemplo:
+
+git clone https://github.com/MikeVillarreal67000876/repaso.git
+
+Descarga el proyecto completo.
+
+
+=========================
+DESHACER CAMBIOS
+=========================
+
+Quitar archivo del área de preparación
+
+git restore --staged archivo.py
+
+
+Volver archivo al último commit
+
+git restore archivo.py
+
+
+Descartar todos los cambios
+
+git restore .
+
+ATENCIÓN:
+Elimina cambios no guardados.
+
+
+=========================
+BORRAR GIT DEL PROYECTO
+=========================
+
+PowerShell:
+
+Remove-Item -Recurse -Force .git
+
+El proyecto deja de ser un repositorio Git.
+
+
+=========================
+FLUJO TÍPICO DE TRABAJO
+=========================
+
+1. Crear proyecto
+
+git init
+
+2. Agregar archivos
+
+git add .
+
+3. Crear commit
+
+git commit -m "Primer commit"
+
+4. Crear rama main
+
+git branch -M main
+
+5. Conectar GitHub
+
+git remote add origin https://github.com/usuario/proyecto.git
+
+6. Subir proyecto
+
+git push -u origin main
+
+7. Modificar código
+
+8. Guardar cambios
+
+git add .
+
+9. Crear nuevo commit
+
+git commit -m "Nueva funcionalidad"
+
+10. Subir cambios
+
+git push
+
+11. Render detecta cambios y redeploya automáticamente.

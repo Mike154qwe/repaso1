@@ -1,0 +1,232 @@
+PASOS PARA CONFIGURAR FASTAPI EN RENDER
+
+1. Verificar que el proyecto funcione localmente
+
+   python -m uvicorn main:app --reload
+
+   Abrir:
+   http://127.0.0.1:8000
+
+
+2. Verificar estructura del proyecto
+
+   El proyecto debe tener:
+
+   main.py
+   requirements.txt
+   db.py
+   model.py
+   operation_db.py
+   templates/
+   static/
+
+
+3. Verificar requirements.txt
+
+   Debe incluir mínimo:
+
+   fastapi
+   uvicorn
+   sqlmodel
+   sqlalchemy
+   jinja2
+   python-multipart
+
+   Si falta, generar:
+
+   pip freeze > requirements.txt
+
+
+4. Subir cambios a GitHub
+
+   git add .
+   git commit -m "Proyecto listo para Render"
+   git push
+
+
+5. Entrar a Render
+
+   https://dashboard.render.com
+
+
+6. Crear nuevo servicio
+
+   New +
+   Web Service
+
+
+7. Conectar GitHub
+
+   Seleccionar el repositorio del proyecto.
+
+
+8. Configurar Render
+
+   Name:
+   nombre-del-proyecto
+
+   Runtime:
+   Python 3
+
+   Branch:
+   main
+
+
+9. Configurar Root Directory
+
+   Si main.py está en la raíz del repo:
+   dejar vacío
+
+   Si main.py está dentro de una carpeta:
+   poner el nombre de esa carpeta
+
+   Ejemplo:
+   biblioteca_web_completa
+
+
+10. Build Command
+
+   pip install -r requirements.txt
+
+
+11. Start Command
+
+   python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+
+
+12. Variables de entorno
+
+   Agregar:
+
+   ENV=prod
+
+   Si se usa base de datos PostgreSQL:
+
+   DATABASE_URL=postgresql://usuario:password@host/database
+
+
+13. Crear servicio
+
+   Click en:
+   Create Web Service
+
+
+14. Esperar despliegue
+
+   Render debe mostrar:
+
+   Building...
+   Deploying...
+   Live
+
+
+15. Abrir la URL pública
+
+   Render entrega una URL como:
+
+   https://nombre-del-proyecto.onrender.com
+
+   Probar:
+
+   https://nombre-del-proyecto.onrender.com
+   https://nombre-del-proyecto.onrender.com/docs
+
+
+16. Si falla el despliegue
+
+   Revisar pestaña:
+
+   Logs
+
+   Buscar errores como:
+
+   Traceback
+   ModuleNotFoundError
+   TemplateNotFound
+   Application exited early
+
+
+17. Después de modificar código en VS Code
+
+   Guardar archivo
+   git add .
+   git commit -m "Cambio realizado"
+   git push
+
+   Render redeploya automáticamente.
+
+   Si no lo hace:
+
+   Manual Deploy
+   Deploy latest commit
+
+
+18. Si Render sigue usando versión vieja
+
+   Usar:
+
+   Manual Deploy
+   Clear build cache & deploy
+
+
+ERRORES COMUNES
+
+1. Error: Could not import module "main"
+
+   Causas:
+   - main.py no está en el Root Directory correcto.
+   - Start Command mal escrito.
+   - Error dentro de main.py.
+
+   Solución:
+   revisar Root Directory y logs.
+
+
+2. Error: Option --port requires an argument
+
+   Eso pasa localmente si usas $PORT en Windows.
+
+   Local:
+   python -m uvicorn main:app --host 0.0.0.0 --port 8000
+
+   Render:
+   python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+
+
+3. Error: Application exited early
+
+   Causas:
+   - Start Command incorrecto.
+   - Falta requirements.txt.
+   - main.py no está en la carpeta correcta.
+   - Error de importación.
+
+
+4. Error con TemplateResponse
+
+   Usar esta forma:
+
+   return templates.TemplateResponse(
+       request=request,
+       name="index.html",
+       context={
+           "books": books,
+           "stats": stats,
+           "q": "",
+       },
+   )
+
+
+5. Error 403 en GitHub
+
+   Significa que Git está autenticado con una cuenta sin permisos.
+
+   Solución:
+   borrar credenciales viejas en Administrador de credenciales de Windows
+   y volver a iniciar sesión con la cuenta correcta.
+
+
+NOTA IMPORTANTE
+
+Para pruebas, SQLite funciona.
+Para cumplir mejor un requisito de base de datos en servidor, usar PostgreSQL en Neon, Supabase o Render PostgreSQL.
